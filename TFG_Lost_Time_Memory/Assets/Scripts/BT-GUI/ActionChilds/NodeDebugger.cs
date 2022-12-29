@@ -9,17 +9,17 @@ public class NodeDebugger : NodeAction
     public string log;
     protected override void OnStart()
     {
-       Debug.Log($"OnStart{log}");
+       Debug.Log($"{log}");
     }
 
     protected override Status OnUpdate()
     {
-        Debug.Log($"OnUpdate{log}");
+        Debug.Log($"{log}");
         return Status.Success;
     }
 
     protected override void OnStop()
     {
-        Debug.Log($"OnStop{log}");
+        Debug.Log($"{log}");
     }
 }

@@ -4,5 +4,12 @@ using UnityEngine;
 
 public abstract class NodeDecorator : Node
 {
-    public Node child;
+    [HideInInspector] public Node child;
+
+    public override Node Clone()
+    {
+        NodeDecorator nodeDecorator = Instantiate(this);
+        nodeDecorator.child = child.Clone();
+        return nodeDecorator;
+    }
 }

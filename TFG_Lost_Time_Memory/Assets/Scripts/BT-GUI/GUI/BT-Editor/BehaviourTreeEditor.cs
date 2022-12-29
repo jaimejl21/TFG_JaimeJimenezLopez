@@ -4,6 +4,9 @@ using UnityEngine.UIElements;
 
 public class BehaviourTreeEditor : EditorWindow
 {
+    BehaviourTreeView _behaviourTreeView;
+    InspectorView _inspectorView;
+    
     [MenuItem("BehaviourTreeEditor/Editor ...")]
     public static void OpenWindow()
     {
@@ -25,5 +28,24 @@ public class BehaviourTreeEditor : EditorWindow
         // The style will be applied to the VisualElement and all of its children.
         var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/BT-GUI/GUI/BT-Editor/BehaviourTreeEditor.uss");
         root.styleSheets.Add(styleSheet);
+
+        _behaviourTreeView = root.Q<BehaviourTreeView>();
+        _inspectorView = root.Q<InspectorView>();
+        _behaviourTreeView.OnNodeSelected = OnNodeSelectionChanged;
+        OnSelectionChange();
+    }
+
+    private void OnSelectionChange()
+    {
+        BehaviourTree tree = Selection.activeObject as BehaviourTree;
+        if (tree && AssetDatabase.CanOpenAssetInEditor(tree.GetInstanceID()))
+        {
+            _behaviourTreeView.PopulateView(tree);
+        }
+    }
+
+    void OnNodeSelectionChanged(NodeView nodeView)
+    {
+        _inspectorView.UpdateSelection(nodeView);
     }
 }

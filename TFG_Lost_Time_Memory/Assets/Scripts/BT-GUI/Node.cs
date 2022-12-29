@@ -11,8 +11,10 @@ public abstract class Node : ScriptableObject
         Success
     }
 
-    public Status status = Status.Running;
-    public bool started = false;
+    [HideInInspector] public Status status = Status.Running;
+    [HideInInspector] public bool started = false;
+    [HideInInspector] public string guide;
+    [HideInInspector] public Vector2 position;
 
     public Status Update()
     {
@@ -31,6 +33,11 @@ public abstract class Node : ScriptableObject
         }
 
         return status;
+    }
+
+    public virtual Node Clone()
+    {
+        return Instantiate(this);
     }
 
     protected abstract void OnStart();
