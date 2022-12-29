@@ -1,4 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/Scripts/BT-GUI/GUI/BehaviourTreeEditor.uss?fileID=7433441132597879392&amp;guid=43ece076607e5df459ffc95171b6a114&amp;type=3#BehaviourTreeEditor" />
-    <BehaviourTreeView focusable="true" name="BehaviourTreeView" style="flex-grow: 1; height: 611px; flex-direction: column-reverse; flex-basis: auto; position: relative; overflow: hidden; opacity: 1; align-items: auto; justify-content: space-between; flex-wrap: wrap-reverse; flex-shrink: 1; display: flex; visibility: visible; right: 0; left: 0; top: 0; bottom: 0;" />
-</ui:UXML>
