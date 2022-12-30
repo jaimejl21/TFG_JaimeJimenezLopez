@@ -15,6 +15,7 @@ public abstract class Node : ScriptableObject
     [HideInInspector] public bool started = false;
     [HideInInspector] public string guide;
     [HideInInspector] public Vector2 position;
+    [TextArea] public string description;
 
     public Status Update()
     {

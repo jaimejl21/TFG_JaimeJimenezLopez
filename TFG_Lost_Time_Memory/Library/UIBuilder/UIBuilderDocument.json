@@ -15,41 +15,41 @@
                     {
                         "m_StyleSheet": {
                             "fileID": 7433441132597879392,
-                            "guid": "df0899d1d74894245b31ab7f7c3b4759",
+                            "guid": "9890574315be68544bf011c75ce5c103",
                             "type": 3
                         },
                         "m_BackupStyleSheet": {
                             "instanceID": 0
                         },
-                        "m_OldPath": "Assets/Scripts/BT-GUI/GUI/BT-Editor/BehaviourTreeEditor.uss"
+                        "m_OldPath": "Assets/Scripts/BT-GUI/GUI/BT-Editor/NodeViewStyle.uss"
                     }
                 ],
                 "m_VisualTreeAssetBackup": {
                     "instanceID": 0
                 },
-                "m_OpenendVisualTreeAssetOldPath": "Assets/Scripts/BT-GUI/GUI/BT-Editor/BehaviourTreeEditor.uxml",
+                "m_OpenendVisualTreeAssetOldPath": "Assets/Scripts/BT-GUI/GUI/BT-Editor/NodeView.uxml",
                 "m_VisualTreeAsset": {
                     "fileID": 9197481963319205126,
-                    "guid": "beef3a14d380e7e44b511bf6ad7cc8a3",
+                    "guid": "fd4b68a35c354b34d9bc5a282e7a9272",
                     "type": 3
                 },
                 "m_ActiveStyleSheet": {
                     "fileID": 7433441132597879392,
-                    "guid": "df0899d1d74894245b31ab7f7c3b4759",
+                    "guid": "9890574315be68544bf011c75ce5c103",
                     "type": 3
                 },
                 "m_Settings": {
-                    "UxmlGuid": "beef3a14d380e7e44b511bf6ad7cc8a3",
-                    "UxmlPath": "Assets/Scripts/BT-GUI/GUI/BT-Editor/BehaviourTreeEditor.uxml",
+                    "UxmlGuid": "fd4b68a35c354b34d9bc5a282e7a9272",
+                    "UxmlPath": "Assets/Scripts/BT-GUI/GUI/BT-Editor/NodeView.uxml",
                     "CanvasX": 0,
                     "CanvasY": 0,
-                    "CanvasWidth": 1080,
-                    "CanvasHeight": 720,
+                    "CanvasWidth": 350,
+                    "CanvasHeight": 450,
                     "MatchGameView": false,
-                    "ZoomScale": 0.75,
+                    "ZoomScale": 1.0,
                     "PanOffset": {
-                        "x": 116.0,
-                        "y": 116.75
+                        "x": 105.0,
+                        "y": 56.0
                     },
                     "ColorModeBackgroundOpacity": 1.0,
                     "ImageModeCanvasBackgroundOpacity": 1.0,
