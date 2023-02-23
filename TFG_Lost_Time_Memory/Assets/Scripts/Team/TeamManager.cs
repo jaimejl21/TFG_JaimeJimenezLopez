@@ -14,18 +14,13 @@ public class TeamManager : MonoBehaviour
     [SerializeField]
     GameObject[] teamSlots;
 
-    public List<Character.Info> noTeamCharList;
-    public List<Character.Info> inTeamCharList;
+    public List<Character.Info> allCharList;
+
+    public bool dragging = false;
 
     void Start()
     {
-        noTeamCharList = GameManager.allChar.ToList();
-        inTeamCharList = GameManager.myTeam.ToList();
-
-        //for (int i = 0; i < 6; i++)
-        //{
-        //    Debug.Log(auxTeamList[i]);
-        //}
+        allCharList = GameManager.allChar.ToList();
 
         pool = GameObject.FindGameObjectWithTag("Pool");
 
@@ -35,26 +30,36 @@ public class TeamManager : MonoBehaviour
 
     void TeamSlots()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < allCharList.Count; i++)
         {
-            if (inTeamCharList[i].id != -1)
+            if(allCharList[i].inTeam)
             {
-                character.GetComponent<Character>().info = inTeamCharList[i];
-                GameObject aux = Instantiate(character, teamSlots[i].transform);
+                character.GetComponent<Character>().info = allCharList[i];
+                int pos = 0;
+                GameObject aux = new GameObject();
+                for (int j=0; j < teamSlots.Length; j++)
+                {
+                    if(character.GetComponent<Character>().info.pos == teamSlots[j].transform.GetComponent<DropSlot>().slotPos)
+                    {
+                        aux = Instantiate(character, teamSlots[j].transform);
+                        pos = j;
+
+                    }
+                }
                 aux.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
                 aux.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
-                teamSlots[i].GetComponent<DropSlot>().item = teamSlots[i].transform.GetChild(0).gameObject;
-                teamSlots[i].transform.GetChild(0).GetComponent<DragHandler>().startParent = pool.transform;
+                teamSlots[pos].GetComponent<DropSlot>().item = teamSlots[pos].transform.GetChild(0).gameObject;
+                teamSlots[pos].transform.GetChild(0).GetComponent<DragHandler>().slotParent = teamSlots[pos].transform;
+                teamSlots[pos].transform.GetChild(0).GetComponent<DragHandler>().startParent = pool.transform;
             }
         }
     }
 
     void CharInventory()
     {
-        foreach (Character.Info c in noTeamCharList)
+        foreach (Character.Info c in allCharList)
         {
             character.GetComponent<Character>().info = c;
-            //Debug.Log(character.GetComponent<Character>().info.inTeam);
             if(character.GetComponent<Character>().info.inTeam != true)
             {
                 Instantiate(character, pool.transform);
@@ -72,7 +77,6 @@ public class TeamManager : MonoBehaviour
                 cont++;
             }
         }
-        Debug.Log("Cont inTeam: " + cont);
         if(cont < 4)
         {
             return true;
@@ -85,56 +89,7 @@ public class TeamManager : MonoBehaviour
 
     public void SaveTeam()
     {
-        for (int i=0; i<6; i++)
-        {
-            if(teamSlots[i].GetComponent<DropSlot>().item != null)
-            {
-                int pos = teamSlots[i].GetComponent<DropSlot>().slotPos;
-                Character.Info inSlotChar = new Character.Info(teamSlots[i].GetComponent<DropSlot>().item.GetComponent<Character>().info.id, pos, true);
-                inTeamCharList.RemoveAt(i);
-                inTeamCharList.Insert(i, inSlotChar);
-
-                //bool aux = false;
-                //int j = 0;
-
-                //while(!aux)
-                //{
-                //    if(auxCharList[j].id == inSlotChar.id)
-                //    {
-                //        auxCharList.Remove(auxCharList[j]);
-                //        aux = true;
-                //    }
-                //    j++;
-                //}
-
-                //Debug.Log(auxTeamList[i]);
-                //Debug.Log(inSlotChar.inTeam);
-            }
-            else
-            {
-                inTeamCharList.RemoveAt(i);
-                inTeamCharList.Insert(i, new Character.Info(-1, -1, false));
-                //Debug.Log(auxTeamList[i]);
-            }
-        }
-
-        //foreach(Character.Info c in auxCharList)
-        //{
-        //    Debug.Log(c.id);
-        //}
-
-        GameManager.myTeam = inTeamCharList;
-        //GameManager.allChar = noTeamCharList;
-
-        for (int i = 0; i < GameManager.allChar.Count; i++)
-        {
-            Debug.Log(" Pos " + i + ": " + GameManager.allChar[i].id);
-        }
-
-        //Debug.Log("Saved");
-
+        GameManager.allChar = allCharList;
         GameManager.inst.SaveListsToJson();
-
-        //GameManager.inst.ShowMyTeam();
     }
 }

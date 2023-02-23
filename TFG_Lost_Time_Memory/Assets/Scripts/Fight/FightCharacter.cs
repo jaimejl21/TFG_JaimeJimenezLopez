@@ -14,35 +14,34 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
     public SpriteRenderer sr;
     public GameObject lifeBar;
     public GameObject specialBar;
-    GameObject buttonsDown;
     Character.Info charInfo;
     ComboController cc;
 
-    public int life, attack, special, position;
-    int maxLife, maxSpecial, target;
+    public int position;
+    int target;
     public bool type, specialActivated = false;
     public string abilityType;
-    float scaleI;
+    public float life, special;
+    float maxLife, maxSpecial, attack, defense, scaleI;
 
     private  void Start()
     {
-        buttonsDown = GameObject.Find("ButtonsDown");
         fightCntrl = FindObjectOfType<FightController>();
         cc = fightCntrl.comboCntrl;
 
-        if (gameObject.tag == "Player")
-        {
-            charInfo = transform.GetComponent<Character>().info;
-            gameObject.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>().text = "" + charInfo.id;
-        }
+        charInfo = transform.GetComponent<Character>().info;
+        gameObject.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>().text = "" + charInfo.id;
 
         scaleI = lifeBar.transform.localScale.x;
-        maxLife = life;
+        maxLife = charInfo.stats.hp;
 
         maxSpecial = maxLife;
         special = 0;
 
-        if(type)
+        attack = charInfo.stats.atk;
+        defense = charInfo.stats.def;
+
+        if (type)
         {
             targets = GameObject.Find("Enemies");
         }
@@ -296,10 +295,11 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
     }
 
-    public void Damage(int attack)
+    public void Damage(float amount)
     {
-        life -= attack;
-        StartCoroutine(AnimDamage(attack));
+        amount -= defense;
+        life -= amount;
+        StartCoroutine(AnimDamage(amount));
         if(life <= 0)
         {
             if(type)
@@ -315,11 +315,6 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
                     fightCntrl.playersPositions.RemoveAt(fightCntrl.playersPositions.IndexOf(position));
                     fightCntrl.playerSelect = fightCntrl.playersPositions[0];
                     fightCntrl.pointerPlayer = 0;
-                    //for (int i = 0; i < fightCntrl.playersPositions.Count; i++)
-                    //{
-                    //    fightCntrl.players.transform.GetChild(fightCntrl.playersPositions[i]).GetChild(0).GetComponent<FightCharacter>().Select(false);
-                    //}
-                    //fightCntrl.players.transform.GetChild(fightCntrl.playerSelect).GetChild(0).GetComponent<FightCharacter>().Select(true);
 
                     int index = fightCntrl.atkBtnsIds.IndexOf(gameObject.GetComponent<Character>().info.id);
                     fightCntrl.listAttackButtons[index].GetComponent<AttackButton>().isAlive = false;
@@ -352,10 +347,10 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
     }
 
-    IEnumerator WaitTime(float time)
-    {
-        yield return new WaitForSecondsRealtime(time);
-    }
+    //IEnumerator WaitTime(float time)
+    //{
+    //    yield return new WaitForSecondsRealtime(time);
+    //}
 
     IEnumerator AnimAttack()
     {

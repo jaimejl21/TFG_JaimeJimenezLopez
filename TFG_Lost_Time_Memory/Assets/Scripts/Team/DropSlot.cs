@@ -19,7 +19,6 @@ public class DropSlot : MonoBehaviour, IDropHandler
         if(!item)
         {
             Debug.Log("Opcion A");
-            //Debug.Log(teamManager.CanAddToTeam().ToString());
             if (teamManager.CanAddToTeam())
             {
                 item = DragHandler.itemDragging;
@@ -27,22 +26,15 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 item.transform.position = transform.position;
                 item.GetComponent<DragHandler>().slotParent = transform;
                 item.GetComponent<Character>().info.inTeam = true;
-                //Debug.Log("inTeam: " + item.GetComponent<Character>().info.inTeam);
-                for (int i = 0; i < teamManager.noTeamCharList.Count; i++)
+                item.GetComponent<Character>().info.pos = transform.GetComponent<DropSlot>().slotPos;
+                for (int i = 0; i < teamManager.allCharList.Count; i++)
                 {
-                    if (teamManager.noTeamCharList[i].id == item.GetComponent<Character>().info.id)
+                    if (teamManager.allCharList[i].id == item.GetComponent<Character>().info.id)
                     {
-                        teamManager.noTeamCharList.RemoveAt(i);
+                        teamManager.allCharList[i].inTeam = true;
+                        teamManager.allCharList[i].pos = transform.GetComponent<DropSlot>().slotPos;
                     }
                 }
-
-                //Debug.Log(teamManager.auxCharList.Contains(item.GetComponent<Character>().info) + "   " + teamManager.auxCharList.Count);
-                //Debug.Log("Count: " + teamManager.auxCharList.Count);
-
-                //foreach (Character.Info c in teamManager.auxCharList)
-                //{
-                //    Debug.Log(c.id);
-                //}
             } 
         }
         else
@@ -54,10 +46,26 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 item.transform.position = DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.position;
                 DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.GetComponent<DropSlot>().item = item;
                 item.GetComponent<DragHandler>().slotParent = DragHandler.itemDragging.GetComponent<DragHandler>().slotParent;
+                item.GetComponent<Character>().info.pos = DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.GetComponent<DropSlot>().slotPos;
+                for (int i = 0; i < teamManager.allCharList.Count; i++)
+                {
+                    if (teamManager.allCharList[i].id == item.GetComponent<Character>().info.id)
+                    {
+                        teamManager.allCharList[i].pos = DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.GetComponent<DropSlot>().slotPos;
+                    }
+                }
                 item = DragHandler.itemDragging;
                 item.transform.SetParent(transform);
                 item.transform.position = transform.position;
                 item.GetComponent<DragHandler>().slotParent = transform;
+                item.GetComponent<Character>().info.pos = transform.GetComponent<DropSlot>().slotPos;
+                for (int i = 0; i < teamManager.allCharList.Count; i++)
+                {
+                    if (teamManager.allCharList[i].id == item.GetComponent<Character>().info.id)
+                    {
+                        teamManager.allCharList[i].pos = transform.GetComponent<DropSlot>().slotPos;
+                    }
+                }
             }
             else
             {
@@ -66,35 +74,30 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 item.transform.position = GameObject.FindGameObjectWithTag("Pool").transform.position;
                 item.GetComponent<DragHandler>().slotParent = GameObject.FindGameObjectWithTag("Pool").transform;
                 item.GetComponent<Character>().info.inTeam = false;
-                teamManager.noTeamCharList.Add(item.GetComponent<Character>().info);
-                //Debug.Log("Add to pool " + item.GetComponent<Character>().info.id);
-                //Debug.Log("Char list " + teamManager.auxCharList[(teamManager.auxCharList.Count - 1)].id + "   " + teamManager.auxCharList.Count);
-                //foreach (Character.Info c in teamManager.auxCharList)
-                //{
-                //    Debug.Log(c.id);
-                //}
-
+                item.GetComponent<Character>().info.pos = -1;
+                for (int i = 0; i < teamManager.allCharList.Count; i++)
+                {
+                    if (teamManager.allCharList[i].id == item.GetComponent<Character>().info.id)
+                    {
+                        teamManager.allCharList[i].inTeam = false;
+                        teamManager.allCharList[i].pos = -1;
+                    }
+                }
                 item = DragHandler.itemDragging;
                 item.transform.SetParent(transform);
                 item.transform.position = transform.position;
                 item.GetComponent<DragHandler>().slotParent = transform;
                 item.GetComponent<Character>().info.inTeam = true;
-                for (int i = 0; i < teamManager.noTeamCharList.Count; i++)
+                item.GetComponent<Character>().info.pos = transform.GetComponent<DropSlot>().slotPos;
+                for (int i = 0; i < teamManager.allCharList.Count; i++)
                 {
-                    if (teamManager.noTeamCharList[i].id == item.GetComponent<Character>().info.id)
+                    if (teamManager.allCharList[i].id == item.GetComponent<Character>().info.id)
                     {
-                        teamManager.noTeamCharList.RemoveAt(i);
+                        teamManager.allCharList[i].inTeam = true;
+                        teamManager.allCharList[i].pos = transform.GetComponent<DropSlot>().slotPos;
                     }
                 }
             } 
-        }
-    }
-
-    void Update()
-    {
-        if (item != null && item.transform.parent != transform)
-        {
-            item = null;
         }
     }
 }

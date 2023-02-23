@@ -9,15 +9,19 @@ public class DragHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     public Transform startParent, dragParent;
     public static GameObject itemDragging;
     public Transform slotParent;
+    TeamManager tm;
 
     void Start()
     {
+        tm = FindObjectOfType<TeamManager>();
         dragParent = GameObject.FindGameObjectWithTag("DragParent").transform;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
         //Debug.Log("OnBeginDrag");
+        tm.dragging = true;
         itemDragging = gameObject;
         startPosition = transform.position;
         startParent = transform.parent;
@@ -33,7 +37,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     public void OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log("OnEndDrag");
-
+        tm.dragging = false;
         itemDragging = null;
         if(transform.parent == dragParent)
         {
