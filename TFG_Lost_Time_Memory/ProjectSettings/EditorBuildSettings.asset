@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Gear.unity
     guid: 87d377f82cae0f04398947b05e9b6090
   - enabled: 1
+    path: Assets/Scenes/Game/Blacksmith.unity
+    guid: e1f85af6fce77d344a6bcda7cbc2a750
+  - enabled: 1
     path: Assets/Scenes/Game/Merchant.unity
     guid: 3571f61d81ef87a49a34be79a793deb2
   - enabled: 1

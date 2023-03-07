@@ -10,6 +10,7 @@ public class LevelUpItem : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 
     public int expAm, amount, type;
     public bool selected;
+    bool pointerDown = false;
 
     LevelUpMananager lum;
 
@@ -20,15 +21,47 @@ public class LevelUpItem : MonoBehaviour, IPointerClickHandler, IPointerDownHand
         SetItemInfo();
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    void Update()
     {
-        lum.SelectMaterial(selected, type, expAm);
-        //Debug.Log("Click type " + type + " position " + position);
+        //if(pointerDown)
+        //{
+        //    float timer = 0f;
+        //    timer += Time.deltaTime;
+        //    if(timer >= 1)
+        //    {
+        //        lum.SelectMaterial(selected, type, expAm);
+        //        timer = 0f;
+        //    }      
+        //}
     }
 
-    public void OnPointerDown(PointerEventData eventData) { }
+    void LoopSelectMaterial()
+    {
+        float timer = 0f;
+        while (pointerDown)
+        {
+            
+            timer += Time.deltaTime;
+            if (timer >= 1)
+            {
+                lum.SelectMaterial(selected, type, expAm);
+                timer = 0f;
+            }
+        }
+    }
 
-    public void OnPointerUp(PointerEventData eventData) { }
+    public void OnPointerDown(PointerEventData eventData) 
+    {
+        pointerDown = true;
+        LoopSelectMaterial();
+    }
+
+    public void OnPointerUp(PointerEventData eventData) 
+    {
+        pointerDown = false;
+    }
+
+    public void OnPointerClick(PointerEventData pointerEventData) { }
 
     void SetItemInfo()
     {

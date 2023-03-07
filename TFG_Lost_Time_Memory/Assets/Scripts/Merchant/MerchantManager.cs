@@ -31,18 +31,17 @@ public class MerchantManager : MonoBehaviour
         {
             if (i < 6)
             {
-                buyGearList.Add(new Gear.Info(i, 10, i, 0, 0, 0, 0, false, -1));
+                buyGearList.Add(new Gear.Info(i, 5, i, 0, 0, 0, 0, false, -1));
             }
             else if ((i > 5) && (i < 12))
             {
-                buyGearList.Add(new Gear.Info(i, 10, (i - 6), 1, 1, 0, 0, false, -1));
+                buyGearList.Add(new Gear.Info(i, 3, (i - 6), 1, 1, 0, 0, false, -1));
             }
             else
             {
-                buyGearList.Add(new Gear.Info(i, 10, (i - 12), 2, 2, 0, 0, false, -1));
+                buyGearList.Add(new Gear.Info(i, 50, (i - 12), 2, 2, 0, 0, false, -1));
             }
         }
-
         BuyTabBtn();
     }
 

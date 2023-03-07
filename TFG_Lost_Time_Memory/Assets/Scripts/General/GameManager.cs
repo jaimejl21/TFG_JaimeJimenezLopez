@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public int charToEquipGear = 0;
     public bool restartPP;
-    public int coins, idGearCount, idCharCount;
+    public int coins, idGearCount, idCharCount, awMats, upMats;
 
     [SerializeField]
     string filename;
@@ -84,18 +84,18 @@ public class GameManager : MonoBehaviour
             {
                 if(i<6)
                 {
-                    allGear.Add(new Gear.Info(i, 10, i, 0, 0, 0, 0, false, -1));
+                    allGear.Add(new Gear.Info(i, 5, i, 0, 0, 0, 0, false, -1));
                     idGearCount++;
                     allEnemies.Add(new Character.Info(i, -1, false, new List<Gear.Info>() { gi, gi, gi, gi, gi, gi }, 1, 0, 320, new Character.Stats()));
                 }
                 else if((i > 5) && (i < 12))
                 {
-                    allGear.Add(new Gear.Info(i, 10, (i-6), 1, 1, 0, 0, false, -1));
+                    allGear.Add(new Gear.Info(i, 3, (i-6), 1, 1, 0, 0, false, -1));
                     idGearCount++;
                 }
                 else
                 {
-                    allGear.Add(new Gear.Info(i, 10, (i - 12), 2, 2, 0, 0, false, -1));
+                    allGear.Add(new Gear.Info(i, 50, (i - 12), 2, 2, 0, 0, false, -1));
                     idGearCount++;
                 }
                 allChar.Add(new Character.Info(i, -1, false, new List<Gear.Info>() { gi, gi, gi, gi, gi, gi }, 1, 0, 320, new Character.Stats()));
@@ -105,12 +105,16 @@ public class GameManager : MonoBehaviour
             SaveListsToJson();
 
             started = 1;
-            coins = 100;
+            coins = 50000;
+            awMats = 90;
+            upMats = 90;
 
             PlayerPrefs.SetInt("started", started);
             PlayerPrefs.SetInt("idGearCount", idGearCount);
             PlayerPrefs.SetInt("idCharCount", idCharCount);
             PlayerPrefs.SetInt("coins", coins);
+            PlayerPrefs.SetInt("awMats", awMats); 
+            PlayerPrefs.SetInt("upMats", upMats);
         }
         else
         {
@@ -118,35 +122,43 @@ public class GameManager : MonoBehaviour
             allChar = lists.charList;
             allGear = lists.gearList;
 
-            GetPlayerPrefs(ref idGearCount, 0);
-            GetPlayerPrefs(ref idCharCount, 0);
-            GetPlayerPrefs(ref coins, 100);
+            //if (PlayerPrefs.HasKey("coins"))
+            //{
+            //    coins = PlayerPrefs.GetInt("coins");
+            //}
+            //else
+            //{
+            //    coins = 50000;
+            //}
+
+            GetPlayerPrefs("idGearCount", ref idGearCount, 0);
+            GetPlayerPrefs("idCharCount", ref idCharCount, 0);
+            GetPlayerPrefs("coins", ref coins, 50000);
+            GetPlayerPrefs("upMats", ref upMats, 90);
+            GetPlayerPrefs("awMats", ref awMats, 90);
         }
     }
 
-    void GetPlayerPrefs(ref int var, int num)
+    void GetPlayerPrefs(string name, ref int toGet, int num)
     {
-        if (PlayerPrefs.HasKey(nameof(var)))
+        if (PlayerPrefs.HasKey(name))
         {
-            var = PlayerPrefs.GetInt(nameof(var));
+            toGet = PlayerPrefs.GetInt(name);
         }
         else
         {
-            var = num;
+            toGet = num;
         }
     }
 
     public void GetListsFromJson ()
     {
         lists = FileHandler.ReadFromJSON<ListsToJson>(filename);
-        //Debug.Log(lists.charList[0].id);
-        //Debug.Log(lists.teamList[0].id);
     }
 
     public void SaveListsToJson()
     {
         FileHandler.SaveToJson2(new ListsToJson(allChar, allGear), filename);
-        //Debug.Log("SaveJson");
     }
 
     public int GetCharPosById(int id)

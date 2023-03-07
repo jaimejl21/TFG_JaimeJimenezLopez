@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelUpMananager : MonoBehaviour
 {
     public GameObject charGO, pool, selectedPool, materialGO;
+    public Button lvlUpBtn;
     public Transform charPos;
     public TextMeshProUGUI[] statsTxt, statsBonusTxt;
-    public TextMeshProUGUI lvTxt;
+    public TextMeshProUGUI lvTxt, coinsTxt, priceTxt;
 
     public int idToEquip, amountC, amountR, amountSR, exp, maxExp, level;
-    int selectedC, selectedR, selectedSR, extraAtk = 0, extraDef = 0, extraHp = 0;
+    int selectedC, selectedR, selectedSR, extraAtk = 0, extraDef = 0, extraHp = 0, coins, price = 0;
 
     public List<Character.Info> allCharList;
     public ExpSlider expSlider;
@@ -24,6 +26,10 @@ public class LevelUpMananager : MonoBehaviour
 
         pool = GameObject.FindGameObjectWithTag("Pool");
         selectedPool = GameObject.Find("SelectedPool");
+
+        coins = GameManager.inst.coins;
+        coinsTxt.text = "Coins: " + coins;
+        lvlUpBtn.interactable = false;
 
         idToEquip = GameManager.inst.charToEquipGear;
         charGO.transform.GetComponent<Character>().info = GameManager.inst.GetCharInfoById(idToEquip);
@@ -43,16 +49,16 @@ public class LevelUpMananager : MonoBehaviour
 
     void SetAmounts()
     {
-        GetPlayerPrefs(ref amountC, 10);
-        GetPlayerPrefs(ref amountR, 10);
-        GetPlayerPrefs(ref amountSR, 10);
+        GetPlayerPrefs("amountC", ref amountC, 100);
+        GetPlayerPrefs("amountR", ref amountR, 100);
+        GetPlayerPrefs("amountSR", ref amountSR, 100);
     }
 
-    void GetPlayerPrefs(ref int var, int num)
+    void GetPlayerPrefs(string name, ref int var, int num)
     {
-        if (PlayerPrefs.HasKey(nameof(var)))
+        if (PlayerPrefs.HasKey(name))
         {
-            var = PlayerPrefs.GetInt(nameof(var));
+            var = PlayerPrefs.GetInt(name);
         }
         else
         {
@@ -131,6 +137,7 @@ public class LevelUpMananager : MonoBehaviour
                 ChangeAmounts(pool, type, amount);
             }
             UpdateExp(selecType, expAm);
+            SetPrice(selecType);
         }
         else
         {
@@ -165,7 +172,9 @@ public class LevelUpMananager : MonoBehaviour
                 ChangeAmounts(pool, type, amount);
             }
             UpdateExp(selecType, expAm);
+            SetPrice(selecType);
         }
+        
     }
 
     void ChangeAmounts(GameObject poolType, int type, int amount)
@@ -227,22 +236,6 @@ public class LevelUpMananager : MonoBehaviour
         statsBonusTxt[2].text = "+" + extraHp;
     }
 
-    //void AddSubtractStats(int statType, int amount)
-    //{
-    //    if (statType == 0)
-    //    {
-    //        charGO.transform.GetComponent<Character>().info.stats.extraAtk += amount;
-    //    }
-    //    else if (statType == 1)
-    //    {
-    //        charGO.transform.GetComponent<Character>().info.stats.extraDef += amount;
-    //    }
-    //    else if (statType == 2)
-    //    {
-    //        charGO.transform.GetComponent<Character>().info.stats.extraHp += amount;
-    //    }
-    //}
-
     public void LvlUp()
     {
         foreach (Transform child in selectedPool.transform)
@@ -258,8 +251,40 @@ public class LevelUpMananager : MonoBehaviour
         extraDef = 0;
         extraHp = 0;
 
+        coins -= price;
+        coinsTxt.text = "Coins: " + coins;
+        GameManager.inst.coins = coins;
+        PlayerPrefs.SetInt("coins", coins);
+        price = 0;
+        priceTxt.text = "Coins: " + price;
+        lvlUpBtn.interactable = false;
+
         UpdateBaseStatsTxt();
         UpdateStatsTxt();
+    }
+
+    void SetPrice(bool selectType)
+    {
+        int incPrice;
+        if(level <= 35) { incPrice = 60; }
+            else if(level <= 70) { incPrice = 80; }
+                else { incPrice = 100; }
+
+        if(!selectType) {price += incPrice;}
+            else {price -= incPrice;}
+
+        priceTxt.text = "Coins: " + price;
+
+        if(price > coins)
+        {
+            priceTxt.color = Color.red;
+            lvlUpBtn.interactable = false;
+        }
+        else
+        {
+            priceTxt.color = Color.white;
+            lvlUpBtn.interactable = true;
+        }
     }
 
     public void SaveAmounts()
@@ -285,7 +310,6 @@ public class LevelUpMananager : MonoBehaviour
                 Debug.Log("id: " + allCharList[i].id + " level: " + allCharList[i].level + " exp: " + allCharList[i].exp + " expNextLvl: " + allCharList[i].expNextLv);
             }
         }
-
         GameManager.allChar = allCharList;
         GameManager.inst.SaveListsToJson();
     }

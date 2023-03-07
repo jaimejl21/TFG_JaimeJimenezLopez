@@ -8,7 +8,9 @@ using UnityEngine.UI;
 public class BlacksmithItem : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
     string typeName;
-    public int upMat, awMat, price;
+    int upMatInc, awMatInc, awPriceInc, upPriceInc, upInitPrice, cumuPrice;
+    public int upMat, awMat, awPrice, upPrice;
+    public bool upgrade = true;
 
     BlacksmithManager bm;
 
@@ -25,7 +27,7 @@ public class BlacksmithItem : MonoBehaviour, IPointerClickHandler, IPointerDownH
         gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "" + transform.GetComponent<Gear>().info.id + "\n" + typeName;
         SetGearStatColor();
         SetRarityColor();
-        SetMatPrice();
+        SetAwUpValues();
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
@@ -103,17 +105,57 @@ public class BlacksmithItem : MonoBehaviour, IPointerClickHandler, IPointerDownH
         gameObject.transform.GetComponent<Image>().color = rarityColor;
     }
 
-    public void SetMatPrice()
+    public void SetAwUpValues()
     {
         int rarity = gameObject.GetComponent<Gear>().info.rarity;
+        int augment = gameObject.GetComponent<Gear>().info.augment;
         int stars = gameObject.GetComponent<Gear>().info.stars;
-        if(stars == 0)
+        if(augment == 5 && stars != 5)
         {
-            //switch(rarity)
-            //{
-            //    case
-            //}
+            upgrade = false;
         }
-        
+        else
+        {
+            upgrade = true;
+        }
+        switch(rarity)
+        {
+            case 0:
+                upMatInc = 6;
+                awMatInc = 1;
+                awPriceInc = 2000;
+                upPriceInc = 10;
+                upInitPrice = 60;
+                break;
+            case 1:
+                upMatInc = 8;
+                awMatInc = 2;
+                awPriceInc = 4000;
+                upPriceInc = 20;
+                upInitPrice = 100;
+                break;
+            case 2:
+                upMatInc = 10;
+                awMatInc = 3;
+                awPriceInc = 8000;
+                upPriceInc = 30;
+                upInitPrice = 150;
+                break;
+        }
+        for (int i = 0; i <= stars; i++)
+        {
+            if (i == 0)
+            {
+                cumuPrice = 0;
+            }
+            else
+            {
+                cumuPrice += ((stars * upPriceInc) + upInitPrice) * 5;
+            }
+        }
+        upMat = upMatInc * (stars + 1);
+        awMat = awMatInc * (stars + 1);
+        awPrice = awPriceInc * (stars + 1);
+        upPrice = (((stars * upPriceInc) + upInitPrice) * (augment + 1) + cumuPrice) ;
     }
 }
