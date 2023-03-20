@@ -27,7 +27,7 @@ public class MerchantManager : MonoBehaviour
 
         idGearCount = GameManager.inst.idGearCount;
 
-        for (int i = 0; i < 18; i++)
+        for (int i = 0; i < 39; i++)
         {
             if (i < 6)
             {
@@ -37,12 +37,24 @@ public class MerchantManager : MonoBehaviour
             {
                 buyGearList.Add(new Gear.Info(i, 3, (i - 6), 1, 1, 0, 0, false, -1));
             }
-            else
+            else if ((i > 11) && (i < 18))
             {
                 buyGearList.Add(new Gear.Info(i, 50, (i - 12), 2, 2, 0, 0, false, -1));
             }
+            else if ((i > 17) && (i < 25))
+            {
+                buyGearList.Add(new Gear.Info(i, 10, (i - 12), -1, 0, 0, 0, false, -1));
+            }
+            else if ((i > 24) && (i < 32))
+            {
+                buyGearList.Add(new Gear.Info(i, 20, (i - 19), -1, 1, 0, 0, false, -1));
+            }
+            else
+            {
+                buyGearList.Add(new Gear.Info(i, 30, (i - 26), -1, 2, 0, 0, false, -1));
+            }
+            BuyTabBtn();
         }
-        BuyTabBtn();
     }
 
     void UpdateCoinsTxt()
@@ -106,23 +118,23 @@ public class MerchantManager : MonoBehaviour
         {
             Destroy(itemPos.GetChild(0).gameObject);
         }
-        //Debug.Log("Rarity: " + go.GetComponent<Gear>().info.rarity);
-        //Debug.Log("Price: " + go.GetComponent<MerchantItem>().price);
         merchantItem.GetComponent<Gear>().info = go.GetComponent<Gear>().info;
         merchantItem.GetComponent<MerchantItem>().price = go.GetComponent<MerchantItem>().price;
         Instantiate(merchantItem, itemPos);
-        itemInfoTxts[0].text = "Price: " + merchantItem.GetComponent<MerchantItem>().price;
-        itemInfoTxts[1].text = "Level: " + 1;
-        itemInfoTxts[2].text = "Stats: " + merchantItem.GetComponent<Gear>().info.statAmount;    
-        if(btns[0].interactable == false)
+        itemInfoTxts[0].text = "Rarity: " + merchantItem.GetComponent<Gear>().info.rarity;
+        itemInfoTxts[1].text = "Stats: " + merchantItem.GetComponent<Gear>().info.statAmount;
+        itemInfoTxts[2].text = "Coins: " + merchantItem.GetComponent<MerchantItem>().price;
+        if (btns[0].interactable == false)
         {
             if (goSelected.GetComponent<MerchantItem>().price > coins)
             {
                 btns[2].interactable = false;
+                itemInfoTxts[2].color = Color.red;
             }
             else
             {
                 btns[2].interactable = true;
+                itemInfoTxts[2].color = Color.white;
             }
         }else if(btns[1].interactable == false)
         {
@@ -157,9 +169,9 @@ public class MerchantManager : MonoBehaviour
             Destroy(itemPos.GetChild(0).gameObject);
         }
 
-        itemInfoTxts[0].text = "Price: ";
-        itemInfoTxts[1].text = "Level: ";
-        itemInfoTxts[2].text = "Stats: ";
+        itemInfoTxts[0].text = "Rarity: ";
+        itemInfoTxts[1].text = "Stats: ";
+        itemInfoTxts[2].text = "Coins: ";
 
         btns[2].interactable = false;
         btns[3].interactable = false;

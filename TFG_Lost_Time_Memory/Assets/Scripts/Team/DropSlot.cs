@@ -18,9 +18,13 @@ public class DropSlot : MonoBehaviour, IDropHandler
     {
         if(!item)
         {
-            Debug.Log("Opcion A");
-            if (teamManager.CanAddToTeam())
+            //Debug.Log("Opcion A");
+            if (teamManager.CanAddToTeam(DragHandler.itemDragging.GetComponent<Character>().info.inTeam))
             {
+                if (DragHandler.itemDragging.GetComponent<Character>().info.inTeam)
+                {
+                    DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.GetComponent<DropSlot>().item = null;
+                }
                 item = DragHandler.itemDragging;
                 item.transform.SetParent(transform);
                 item.transform.position = transform.position;
@@ -41,7 +45,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
         {
             if(DragHandler.itemDragging.GetComponent<Character>().info.inTeam)
             {
-                Debug.Log("Opcion B");
+                //Debug.Log("Opcion B");
                 item.transform.SetParent(DragHandler.itemDragging.GetComponent<DragHandler>().slotParent);
                 item.transform.position = DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.position;
                 DragHandler.itemDragging.GetComponent<DragHandler>().slotParent.GetComponent<DropSlot>().item = item;
@@ -69,7 +73,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
             }
             else
             {
-                Debug.Log("Opcion C");
+                //Debug.Log("Opcion C");
                 item.transform.SetParent(GameObject.FindGameObjectWithTag("Pool").transform);
                 item.transform.position = GameObject.FindGameObjectWithTag("Pool").transform.position;
                 item.GetComponent<DragHandler>().slotParent = GameObject.FindGameObjectWithTag("Pool").transform;

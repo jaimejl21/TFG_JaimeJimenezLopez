@@ -14,11 +14,6 @@ public class ComboController : MonoBehaviour
     public FightController fc;
     public AnimationsManager am;
 
-    void Start()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Good")
@@ -95,7 +90,7 @@ public class ComboController : MonoBehaviour
                 break;
         }
 
-        switch (timesCombo)
+        switch (fc.auxTimesCombo)
         {
             case 1:
                 timesAtkVar = 0;
@@ -112,6 +107,7 @@ public class ComboController : MonoBehaviour
             default:
                 break;
         }
+        Debug.Log(comboName + " " + timesAtkVar);
     }
 
     public void ComboAction()

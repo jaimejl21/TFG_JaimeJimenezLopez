@@ -127,8 +127,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -383,13 +383,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     id: 0
+    type: 0
     pos: 0
     inTeam: 0
     gear: []
+    level: 0
+    exp: 0
+    expNextLv: 0
     stats:
+      baseAtk: 10
+      baseDef: 5
+      baseHp: 100
+      extraAtk: 0
+      extraDef: 0
+      extraHp: 0
       atk: 10
-      dfs: 0
-      crt: 0
+      def: 5
       hp: 100
 --- !u!61 &2771423724216020552
 BoxCollider2D:

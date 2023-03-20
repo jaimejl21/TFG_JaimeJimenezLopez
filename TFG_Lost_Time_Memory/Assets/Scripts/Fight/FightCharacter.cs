@@ -16,9 +16,10 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
     public GameObject specialBar;
     Character.Info charInfo;
     ComboController cc;
+    Color typeColor;
 
-    public int position;
-    int target;
+    public int position, atkBuff, atkDebuff, defBuff, defDebuff;
+    int target, effectiveType, weakType, charType;
     public bool type, specialActivated = false;
     public string abilityType;
     public float life, special;
@@ -31,6 +32,8 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
         charInfo = transform.GetComponent<Character>().info;
         gameObject.transform.GetChild(2).gameObject.GetComponent<TextMeshPro>().text = "" + charInfo.id;
+        charType = transform.GetComponent<Character>().info.type;
+        SetTypeStats();
 
         scaleI = lifeBar.transform.localScale.x;
         maxLife = charInfo.stats.hp;
@@ -40,6 +43,7 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
 
         attack = charInfo.stats.atk;
         defense = charInfo.stats.def;
+
 
         if (type)
         {
@@ -84,13 +88,16 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
         }
         if(fightCntrl.enemiesN >= 0 && fightCntrl.playersN >= 0)
         {
+            float typeBonus = GetTypeBonus(targets.transform.GetChild(target).GetChild(0).GetComponent<Character>().info.type);
             if(type)
             {
-                targets.transform.GetChild(target).GetChild(0).GetComponent<FightCharacter>().Damage(attack * cc.nameAtkVar + cc.timesAtkVar);
+                targets.transform.GetChild(target).GetChild(0).GetComponent<FightCharacter>().Damage(typeBonus * attack * cc.nameAtkVar + cc.timesAtkVar);
+                fightCntrl.typeBonusTxt.text = (typeBonus * attack * cc.nameAtkVar + cc.timesAtkVar).ToString();
             }
             else
             {
-                targets.transform.GetChild(target).GetChild(0).GetComponent<FightCharacter>().Damage(attack);
+                targets.transform.GetChild(target).GetChild(0).GetComponent<FightCharacter>().Damage(typeBonus * attack);
+                fightCntrl.typeBonusTxt.text = (typeBonus * attack).ToString();
             }
         }
         AddSpecial();
@@ -105,7 +112,7 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
                 break;
             case "attackAll":
                 StartCoroutine(AnimAttack());
-                for(int i=0; i<6; i++)
+                for(int i = 0; i < 6; i++)
                 {
                     DamageCharacters(i);
                 }
@@ -183,6 +190,30 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
                     }
                 }
                 break;
+            case "buffAtkAll":
+                for (int i = 0; i < 6; i++)
+                {
+                    DeBuffStatChars(i, true, ref attack, 10f);
+                }                   
+                break;
+            case "debuffAtkAll":
+                for (int i = 0; i < 6; i++)
+                {
+                    DeBuffStatChars(i, false, ref attack, 10f);
+                }                   
+                break;
+            case "buffDefAll":
+                for (int i = 0; i < 6; i++)
+                {
+                    DeBuffStatChars(i, true, ref defense, 10f);
+                }                   
+                break;
+            case "debuffDefAll":
+                for (int i = 0; i < 6; i++)
+                {
+                    DeBuffStatChars(i, false, ref defense, 10f);
+                }                
+                break;
             default:
                 break;
         }
@@ -208,13 +239,16 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
         {
             if (fightCntrl.enemiesPositions.Contains(position))
             {
-                if(type)
+                float typeBonus = GetTypeBonus(GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<Character>().info.type);
+                if (type)
                 {
-                    GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(attack * cc.nameAtkVar + cc.timesAtkVar);
+                    GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(typeBonus * attack * cc.nameAtkVar + cc.timesAtkVar);
+                    fightCntrl.typeBonusTxt.text = (typeBonus * attack * cc.nameAtkVar + cc.timesAtkVar).ToString();
                 }
                 else
                 {
-                    GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(attack);
+                    GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(typeBonus * attack);
+                    fightCntrl.typeBonusTxt.text = (typeBonus * attack).ToString();
                 }
             }
         }
@@ -222,13 +256,16 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
         {
             if (fightCntrl.playersPositions.Contains(position))
             {
-                if(type)
+                float typeBonus = GetTypeBonus(GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<Character>().info.type);
+                if (type)
                 {
-                    GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(attack * cc.nameAtkVar + cc.timesAtkVar);
+                    GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(typeBonus * attack * cc.nameAtkVar + cc.timesAtkVar);
+                    fightCntrl.typeBonusTxt.text = (typeBonus * attack * cc.nameAtkVar + cc.timesAtkVar).ToString();
                 }
                 else
                 {
-                    GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(attack);
+                    GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().Damage(typeBonus * attack);
+                    fightCntrl.typeBonusTxt.text = (typeBonus * attack).ToString();
                 }
             }
         } 
@@ -265,6 +302,63 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
             else
             {
                 life += amount;
+            }
+        }
+    }
+
+    public void DeBuffStat(bool buff, ref float stat, float amount)
+    {
+        if(buff)
+        {
+            stat += amount;
+        }
+        else
+        {
+            if((stat - amount) >= 0)
+            {
+                stat -= amount;
+            }
+            else
+            {
+                stat = 0;
+            }
+        }       
+    }
+
+    void DeBuffStatChars(int position, bool buff, ref float stat, float amount)
+    {
+        if (type)
+        {
+            if(buff)
+            {
+                if (fightCntrl.playersPositions.Contains(position))
+                {
+                    GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().DeBuffStat(buff, ref stat, amount);
+                }
+            }
+            else
+            {
+                if (fightCntrl.enemiesPositions.Contains(position))
+                {
+                    GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().DeBuffStat(buff, ref stat, amount);
+                }                  
+            }           
+        }
+        else
+        {
+            if (buff)
+            {
+                if (fightCntrl.enemiesPositions.Contains(position))
+                {
+                    GameObject.Find("Enemies").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().DeBuffStat(buff, ref stat, amount);
+                }
+            }
+            else
+            {
+                if (fightCntrl.playersPositions.Contains(position))
+                {
+                    GameObject.Find("Players").transform.GetChild(position).GetChild(0).GetComponent<FightCharacter>().DeBuffStat(buff, ref stat, amount);
+                }
             }
         }
     }
@@ -362,6 +456,7 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
         transform.position = new Vector3(transform.position.x + mov, transform.position.y, transform.position.z);
         yield return new WaitForSecondsRealtime(0.2f);
         transform.position = new Vector3(transform.position.x - mov, transform.position.y, transform.position.z);
+        fightCntrl.typeBonusTxt.text = "";
     }
 
     IEnumerator AnimDamage(float damage)
@@ -402,5 +497,69 @@ public class FightCharacter : MonoBehaviour, IPointerClickHandler, IPointerDownH
     {
         this.select.SetActive(select);
         //Debug.Log("Select: " + select);
+    }
+
+    void SetTypeStats()
+    {
+        switch (charType)
+        {
+            case 0:
+                typeColor = Color.white;
+                effectiveType = 1;
+                weakType = 2;
+                break;
+            case 1:
+                typeColor = new Color(.5f, .2f, .6f, 1f);
+                effectiveType = 2;
+                weakType = 0;
+                break;
+            case 2:
+                typeColor = new Color(.5f, .3f, 0f, 1f);
+                effectiveType = 0;
+                weakType = 1;
+                break;
+            case 3:
+                typeColor = Color.green;
+                effectiveType = 4;
+                weakType = 6;
+                break;
+            case 4:
+                typeColor = Color.yellow;
+                effectiveType = 5;
+                weakType = 3;
+                break;
+            case 5:
+                typeColor = Color.blue;
+                effectiveType = 6;
+                weakType = 4;
+                break;
+            case 6:
+                typeColor = Color.red;
+                effectiveType = 3;
+                weakType = 5;
+                break;
+            default:
+                break;
+        }
+        gameObject.transform.GetComponent<SpriteRenderer>().color = typeColor;
+    }
+
+    float GetTypeBonus(int objType)
+    {
+        if (objType == effectiveType)
+        {
+            fightCntrl.typeBonusTxt.color = Color.green;
+            return 2f;
+        }
+        else if (objType == weakType)
+        {
+            fightCntrl.typeBonusTxt.color = Color.red;
+            return 0.5f;
+        }
+        else
+        {
+            fightCntrl.typeBonusTxt.color = Color.white;
+            return 1f;
+        }
     }
 }

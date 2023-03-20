@@ -9,6 +9,7 @@ public class LevelUpItem : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     public TextMeshProUGUI typeTxt, amountTxt;
 
     public int expAm, amount, type;
+    int interval = 20;
     public bool selected;
     bool pointerDown = false;
 
@@ -23,29 +24,11 @@ public class LevelUpItem : MonoBehaviour, IPointerClickHandler, IPointerDownHand
 
     void Update()
     {
-        //if(pointerDown)
-        //{
-        //    float timer = 0f;
-        //    timer += Time.deltaTime;
-        //    if(timer >= 1)
-        //    {
-        //        lum.SelectMaterial(selected, type, expAm);
-        //        timer = 0f;
-        //    }      
-        //}
-    }
-
-    void LoopSelectMaterial()
-    {
-        float timer = 0f;
-        while (pointerDown)
+        if (pointerDown)
         {
-            
-            timer += Time.deltaTime;
-            if (timer >= 1)
+            if (Time.frameCount % interval == 0)
             {
                 lum.SelectMaterial(selected, type, expAm);
-                timer = 0f;
             }
         }
     }
@@ -53,7 +36,6 @@ public class LevelUpItem : MonoBehaviour, IPointerClickHandler, IPointerDownHand
     public void OnPointerDown(PointerEventData eventData) 
     {
         pointerDown = true;
-        LoopSelectMaterial();
     }
 
     public void OnPointerUp(PointerEventData eventData) 

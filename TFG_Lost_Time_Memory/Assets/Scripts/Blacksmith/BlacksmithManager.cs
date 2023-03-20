@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class BlacksmithManager : MonoBehaviour
 {
-    public GameObject pool, blacksmithItem, goSelected;
+    public GameObject pool, blacksmithItem, goSelected, weaponsTabPanel, armorTabPanel;
     public Transform itemPos;
     public List<Gear.Info> gearList;
     public TextMeshProUGUI[] itemInfoTxts;
@@ -29,8 +29,7 @@ public class BlacksmithManager : MonoBehaviour
         upMatsTxt.text = "UpMats: " + upMats;
         awMatsTxt.text = "AwMats: " + awMats;
 
-        SetInventory(gearList);
-        ResetItemInfo();
+        WeaponsTabBtn();
     }
 
     public void ChangeItemInfo(GameObject go)
@@ -129,12 +128,54 @@ public class BlacksmithManager : MonoBehaviour
         PlayerPrefs.SetInt("upMats", upMats);
     }
 
-    public void SetInventory(List<Gear.Info> list)
+    public void WeaponsTabBtn()
     {
-        foreach (Gear.Info g in list)
+        btns[2].interactable = false;
+        btns[3].interactable = true;
+        weaponsTabPanel.SetActive(true);
+        armorTabPanel.SetActive(false);
+        ChangeInventory();
+        ResetItemInfo();
+    }
+
+    public void ArmorTabBtn()
+    {
+        btns[3].interactable = false;
+        btns[2].interactable = true;
+        armorTabPanel.SetActive(true);
+        weaponsTabPanel.SetActive(false);
+        ChangeInventory();
+        ResetItemInfo();
+    }
+
+    void ChangeInventory()
+    {
+        foreach (Transform child in pool.transform)
         {
-            blacksmithItem.GetComponent<Gear>().info = g;
-            Instantiate(blacksmithItem, pool.transform);
+            Destroy(child.gameObject);
+        }
+
+        if (!btns[2].interactable)
+        {
+            foreach (Gear.Info g in gearList)
+            {
+                blacksmithItem.GetComponent<Gear>().info = g;
+                if (blacksmithItem.GetComponent<Gear>().info.objType > 5)
+                {
+                    Instantiate(blacksmithItem, pool.transform);
+                }
+            }
+        }
+        else
+        {
+            foreach (Gear.Info g in gearList)
+            {
+                blacksmithItem.GetComponent<Gear>().info = g;
+                if (blacksmithItem.GetComponent<Gear>().info.objType < 6)
+                {
+                    Instantiate(blacksmithItem, pool.transform);
+                }
+            }
         }
     }
 
