@@ -149,6 +149,10 @@ m_ResolvedPackages:
     - 9.0.1
     - 10.0.0-pre.1
     - 10.0.0-pre.2
+<<<<<<< HEAD
+=======
+    - 10.0.0
+>>>>>>> Jaime
     compatible:
     - 7.0.9
     verified: 7.0.9
@@ -375,6 +379,10 @@ m_ResolvedPackages:
     - 8.0.2
     - 9.0.0-pre.1
     - 9.0.0-pre.2
+<<<<<<< HEAD
+=======
+    - 9.0.0
+>>>>>>> Jaime
     compatible:
     - 6.0.6
     - 6.0.7
@@ -585,6 +593,10 @@ m_ResolvedPackages:
     - 9.0.1
     - 10.0.0-pre.1
     - 10.0.0-pre.2
+<<<<<<< HEAD
+=======
+    - 10.0.0
+>>>>>>> Jaime
     compatible:
     - 7.0.6
     verified: 7.0.6
@@ -781,6 +793,8 @@ m_ResolvedPackages:
     - 2.0.0-preview.20
     - 2.0.0-preview.21
     - 2.0.0-preview.22
+    - 2.0.0
+    - 2.0.1
     - 2.1.0-preview.3
     - 2.1.0-preview.5
     - 2.1.0-preview.6
@@ -793,6 +807,8 @@ m_ResolvedPackages:
     - 2.0.0-preview.20
     - 2.0.0-preview.21
     - 2.0.0-preview.22
+    - 2.0.0
+    - 2.0.1
     - 2.1.0-preview.3
     - 2.1.0-preview.5
     - 2.1.0-preview.6
@@ -899,10 +915,19 @@ m_ResolvedPackages:
     - 3.0.15
     - 3.0.16
     - 3.0.17
+<<<<<<< HEAD
     compatible:
     - 3.0.16
     - 3.0.17
     verified: 3.0.17
+=======
+    - 3.0.18
+    compatible:
+    - 3.0.16
+    - 3.0.17
+    - 3.0.18
+    verified: 3.0.18
+>>>>>>> Jaime
   dependencies:
   - name: com.unity.ext.nunit
     version: 1.0.6
@@ -1130,8 +1155,10 @@ m_ResolvedPackages:
     - 1.4.2
     - 1.4.3
     - 1.4.4
+    - 1.5.0
     compatible:
     - 1.4.4
+    - 1.5.0
     verified: 1.4.4
   dependencies:
   - name: com.unity.modules.uielements
@@ -1234,6 +1261,10 @@ m_ResolvedPackages:
     - 1.3.0
     - 1.3.1
     - 1.3.2
+<<<<<<< HEAD
+=======
+    - 1.3.3
+>>>>>>> Jaime
     - 2.0.1-exp.1
     - 2.0.1-exp.2
     - 2.0.1-pre.12
@@ -1244,6 +1275,10 @@ m_ResolvedPackages:
     - 1.3.0
     - 1.3.1
     - 1.3.2
+<<<<<<< HEAD
+=======
+    - 1.3.3
+>>>>>>> Jaime
     - 2.0.1-exp.1
     - 2.0.1-exp.2
     - 2.0.1-pre.12
@@ -1411,6 +1446,7 @@ m_ResolvedPackages:
     - 3.2.0-pre.3
     - 3.2.0-pre.4
     - 4.0.0-pre.1
+    - 4.0.0-pre.2
     compatible:
     - 3.0.6
     - 3.2.0-pre.1
@@ -1549,7 +1585,9 @@ m_ResolvedPackages:
     - 1.7.0
     - 1.7.1
     - 1.7.2
+    - 1.7.3
     - 1.8.0
+    - 1.8.1
     compatible:
     - 1.6.4
     - 1.7.0-pre.1
@@ -1557,7 +1595,9 @@ m_ResolvedPackages:
     - 1.7.0
     - 1.7.1
     - 1.7.2
+    - 1.7.3
     - 1.8.0
+    - 1.8.1
     verified: 1.6.4
   dependencies:
   - name: com.unity.modules.director
@@ -3543,9 +3583,19 @@ m_ResolvedPackages:
     - 1.5.2
     - 1.6.0
     - 1.7.0
+<<<<<<< HEAD
     compatible:
     - 1.6.0
     - 1.7.0
+=======
+    - 1.7.1
+    - 1.8.1
+    compatible:
+    - 1.6.0
+    - 1.7.0
+    - 1.7.1
+    - 1.8.1
+>>>>>>> Jaime
     verified: 1.6.0
   dependencies:
   - name: com.unity.modules.unitywebrequest
@@ -3717,6 +3767,10 @@ m_ResolvedPackages:
     - 8.0.1
     - 9.0.0-pre.1
     - 9.0.0-pre.2
+<<<<<<< HEAD
+=======
+    - 9.0.0
+>>>>>>> Jaime
     compatible:
     - 6.0.6
     verified: 6.0.6
@@ -4049,6 +4103,7 @@ m_ResolvedPackages:
     - 1.8.0
     - 1.8.1
     - 1.8.2
+    - 1.8.3
     compatible:
     - 1.6.6
     - 1.7.0-pre.1
@@ -4062,6 +4117,7 @@ m_ResolvedPackages:
     - 1.8.0
     - 1.8.1
     - 1.8.2
+    - 1.8.3
     verified: 1.6.6
   dependencies:
   - name: com.unity.mathematics

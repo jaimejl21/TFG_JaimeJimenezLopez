@@ -394,6 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charToEquipGear: 0
   restartPP: 1
+  initialized: 0
   coins: 0
   idGearCount: 0
   idCharCount: 0
@@ -567,7 +568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &615401424
 RectTransform:
   m_ObjectHideFlags: 0

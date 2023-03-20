@@ -62,6 +62,29 @@ public class BlacksmithItem : MonoBehaviour, IPointerClickHandler, IPointerDownH
             case 5:
                 typeName = "Orb";
                 break;
+            case 6:
+                typeName = "Sword";
+                break;
+            case 7:
+                typeName = "Spear";
+                break;
+            case 8:
+                typeName = "Scythe";
+                break;
+            case 9:
+                typeName = "Dagger";
+                break;
+            case 10:
+                typeName = "Staff";
+                break;
+            case 11:
+                typeName = "Bow";
+                break;
+            case 12:
+                typeName = "Axe";
+                break;
+            default:
+                break;
         }
     }
 
@@ -70,6 +93,9 @@ public class BlacksmithItem : MonoBehaviour, IPointerClickHandler, IPointerDownH
         int statType = gameObject.transform.GetComponent<Gear>().info.statType;
         switch (statType)
         {
+            case -1:
+                statTypeColor = new Color(1f, 1f, 1f, 1f);
+                break;
             case 0:
                 statTypeColor = new Color(.5f, 0f, 0f, 1f);
                 break;

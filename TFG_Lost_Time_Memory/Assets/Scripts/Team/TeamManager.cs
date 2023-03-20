@@ -67,7 +67,7 @@ public class TeamManager : MonoBehaviour
         } 
     }
 
-    public bool CanAddToTeam()
+    public bool CanAddToTeam(bool inTeam)
     {
         int cont = 0;
         for(int i=0; i<6; i++)
@@ -78,6 +78,10 @@ public class TeamManager : MonoBehaviour
             }
         }
         if(cont < 4)
+        {
+            return true;
+        }
+        else if(cont > 3 && inTeam)
         {
             return true;
         }

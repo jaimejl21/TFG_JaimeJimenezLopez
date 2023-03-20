@@ -17,11 +17,11 @@ public class GearDropSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (GearDragHandler.itemDragging.GetComponent<Gear>().info.objType == type)
+        if (GearDragHandler.itemDragging.GetComponent<Gear>().info.objType == type || (GearDragHandler.itemDragging.GetComponent<Gear>().info.objType > 5 && type > 5))
         {
             if (!item)
             {
-                Debug.Log("Opcion A");
+                //Debug.Log("Opcion A");
                 item = GearDragHandler.itemDragging;
                 item.transform.SetParent(transform);
                 item.transform.position = transform.position;
@@ -42,7 +42,7 @@ public class GearDropSlot : MonoBehaviour, IDropHandler
             {
                 if(item.GetComponent<GearDragHandler>().slotParent != GearDragHandler.itemDragging.GetComponent<GearDragHandler>().slotParent)
                 {
-                    Debug.Log("Opcion B");
+                    //Debug.Log("Opcion B");
                     item.transform.SetParent(GameObject.FindGameObjectWithTag("Pool").transform);
                     item.transform.position = GameObject.FindGameObjectWithTag("Pool").transform.position;
                     item.GetComponent<GearDragHandler>().slotParent = GameObject.FindGameObjectWithTag("Pool").transform;

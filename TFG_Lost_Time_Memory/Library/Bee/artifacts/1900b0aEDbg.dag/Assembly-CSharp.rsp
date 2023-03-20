@@ -399,6 +399,7 @@
 "Assets/Scripts/Characters/Gear/GearItem.cs"
 "Assets/Scripts/Characters/Gear/GearItemPool.cs"
 "Assets/Scripts/Characters/Gear/GearManager.cs"
+"Assets/Scripts/Characters/Gear/Weapon/WeaponItem.cs"
 "Assets/Scripts/Characters/LevelUp/ExpSlider.cs"
 "Assets/Scripts/Characters/LevelUp/LevelUpItem.cs"
 "Assets/Scripts/Characters/LevelUp/LevelUpMananager.cs"

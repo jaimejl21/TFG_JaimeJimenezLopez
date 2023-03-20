@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     public class Info
     {
         public int id;
+        public int type;
         public int pos;
         public bool inTeam;
         public List<Gear.Info> gear;
@@ -25,9 +26,10 @@ public class Character : MonoBehaviour
 
         public Info() { }
 
-        public Info(int id, int pos, bool inTeam, List<Gear.Info> gear, int level, int exp, int expNextLv, Stats stats)
+        public Info(int id, int type, int pos, bool inTeam, List<Gear.Info> gear, int level, int exp, int expNextLv, Stats stats)
         {
             this.id = id;
+            this.type = type;
             this.pos = pos;
             this.inTeam = inTeam;
             this.gear = gear;
