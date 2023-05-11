@@ -35,4 +35,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/Fight.unity
     guid: ed9b73073da6273448671e56de679e0a
+  - enabled: 1
+    path: Assets/AI/AI-Scenes/AuthOpenAI.unity
+    guid: 17dcb5276f02e674b9c67cebb4bafdb0
+  - enabled: 1
+    path: Assets/AI/AI-Scenes/OpenAI-Test.unity
+    guid: 5e966072dc8a98d4bb1bc8367359853f
+  - enabled: 1
+    path: Assets/AI/AI-Scenes/DallE-Test.unity
+    guid: 23a28d2cfe89df44583aa3d7f62a10d9
   m_configObjects: {}
