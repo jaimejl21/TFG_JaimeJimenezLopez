@@ -18,8 +18,19 @@ public class AuthOpenAI : MonoBehaviour
     void Start()
     {
         button.onClick.AddListener(WriteJsonOutput);
+        CheckOpenAIDirectory();
     }
 
+    private void CheckOpenAIDirectory()
+    {
+        string userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        string dir = $"{userPath}/.openai";
+        // If directory does not exist, create it
+        if (!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+    }
     /**
      * Method that will be execute on the onclick associated to input of token
      */
@@ -47,7 +58,7 @@ public class AuthOpenAI : MonoBehaviour
             File.WriteAllText(_path, _jsonString);
         }
 
-        SceneManager.LoadScene(11);
+        SceneManager.LoadScene(10);
     }
 
     void Update()

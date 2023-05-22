@@ -14,11 +14,13 @@ namespace OpenAI
         [SerializeField] private Image resultImage;
         [SerializeField] private Button button;
         [SerializeField] private GameObject loadGameObject;
-
-        private DallEServiceImpl _dallEServiceImpl = new DallEServiceImpl();
+        
+        private DallEServiceImpl _dallEServiceImpl;
 
         private void Start()
         {
+            GameObject newGameObject = new GameObject("NuevoObjeto");
+            _dallEServiceImpl = newGameObject.AddComponent<DallEServiceImpl>();
             button.onClick.AddListener(GetAnImageByPrompt);
         }
 
@@ -75,7 +77,7 @@ namespace OpenAI
         {
             byte[] bytes = texture2D.EncodeToPNG();
             File.WriteAllBytes(
-                Application.dataPath + "/Images/InGameImages" + Regex.Replace(inputField.text, @"\s", "") + "_Image.png", bytes);
+                Application.dataPath + "/Images/InGameImages/" + Regex.Replace(inputField.text, @"\s", "") + "_Image.png", bytes);
         }
     }
 }
